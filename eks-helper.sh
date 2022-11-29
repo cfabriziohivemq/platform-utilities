@@ -59,6 +59,8 @@ _process() {
         _create_cluster_eks
         echo "Configuring nodes...."
         _create_nodegroup_eks
+        echo "Updateing kubeconfig..."
+        _get_cluster_kubeconfig
         ;;
     -d | --delete) echo "Delete Cluster"
         _delete_resource
