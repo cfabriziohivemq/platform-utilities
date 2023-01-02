@@ -1,0 +1,10 @@
+bootstrap:
+  deploymentLabel: ""
+  cluster: "https://kubernetes.default.svc"
+  repositoryUrl: ""
+  targetRevision: ""
+  path: ""
+  valueFiles: []
+  parameters: {}
+  sshKey: ""
+  project: "default"

@@ -29,3 +29,7 @@ same sintax different flag
 `sh eks-helper.sh -d my-first-cluster01 eu-west-1`
 
 
+
+*_bootstrap.sh_*
+
+Use this script to bootstrap an argocd deployment to a new pegasus deployment. See [the cluster setup guide](../../docs/cluster-setup.md) for more info

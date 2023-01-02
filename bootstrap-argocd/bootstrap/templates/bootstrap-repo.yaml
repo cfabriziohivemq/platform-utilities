@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argo-bootstrap-repo-credentials
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    app.kubernetes.io/managed-by: boostrap-argocd
+  labels:
+    argocd.argoproj.io/secret-type: repo-creds
+stringData:
+  type: git
+  url: {{ .Values.bootstrap.repositoryUrl | required "bootstrap.repositoryUrl is required"  }}
+  sshPrivateKey: |- {{ .Values.bootstrap.sshKey | required "bootstrap.sshKey  is required" | nindent 4 }}
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argo-bootstrap-repo
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    app.kubernetes.io/managed-by: boostrap-argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: {{ .Values.bootstrap.repositoryUrl | required "bootstrap.repositoryUrl  is required" }}

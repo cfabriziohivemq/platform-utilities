@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bootstrap-app
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    app.kubernetes.io/managed-by: boostrap-argocd
+spec:
+  destination:
+    namespace: {{ .Release.Namespace }}
+    server: {{ .Values.bootstrap.cluster  | required "bootstrap.cluster is required " }}
+  project: {{ .Values.bootstrap.project  | required "bootstrap.project is required " }}
+  source:
+    path: {{ .Values.bootstrap.path  | required "bootstrap.path is required " }}
+    repoURL: {{ .Values.bootstrap.repositoryUrl  | required "bootstrap.repositoryUrl is required " }}
+    targetRevision: {{ .Values.bootstrap.targetRevision  | required "bootstrap.targetRevision is required " }}
+    helm:
+      valueFiles: {{ .Values.bootstrap.valueFiles }}
+      parameters:
+        - name: bootstrapRepoUrl
+          value: {{ .Values.bootstrap.repositoryUrl  | required "bootstrap.repositoryUrl is required " }}
+        - name: bootstrapTargetRevision
+          value: {{ .Values.bootstrap.targetRevision | required "bootstrap.targetRevision is required " }}
+        - name: bootstrapNamespace
+          value: {{ .Release.Namespace }}
+        {{- range $k, $v := .Values.bootstrap.parameters }}
+        - name: {{ $k }}
+          value: |- {{ $v | nindent 12 }}
+        {{- end }}
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
